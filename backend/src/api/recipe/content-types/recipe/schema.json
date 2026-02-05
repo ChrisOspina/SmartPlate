@@ -94,6 +94,12 @@
     },
     "substitutions": {
       "type": "json"
+    },
+    "saved_recipes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::saved-recipe.saved-recipe",
+      "mappedBy": "recipe"
     }
   }
 }
