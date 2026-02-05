@@ -7,19 +7,48 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { Button } from "./ui/button";
+import Link from "next/link";
+import Image from "next/image";
+import { Cookie, Refrigerator } from "lucide-react";
+import UserDropdown from "./UserDropdown";
 
-const Header = () => {
+const Header = async () => {
+  const user = null; // Replace with actual user fetching logic if needed
+
   return (
     <header
       className="fixed top-0 w-full border-b border-stone-200 bg-stone-50/80
       backdrop-blur-md z-50 supports-backdrop-filter:bg-stone-50/60"
     >
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        Logo goes here
-        <div>Nav Links go here</div>
+        <Link href={user ? "/dashboard" : "/"}>
+          <Image
+            src="/SmartPlateLogo.png"
+            width={80}
+            height={80}
+            className="w-16"
+            alt="SmartPlate Logo"
+          />
+        </Link>
+        <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-stone-600">
+          <Link
+            href="/recipes"
+            className="hover:text-green-600 transition-colors flex gap-1.5 items-center"
+          >
+            <Cookie className="w-4 h-4" />
+            My Recipes
+          </Link>
+          <Link
+            href="/pantry"
+            className="hover:text-green-600 transition-colors flex gap-1.5 items-center"
+          >
+            <Refrigerator className="w-4 h-4" />
+            My Pantry
+          </Link>
+        </div>
         <div className="flex items-center space-x-4">
           <SignedIn>
-            <UserButton />
+            <UserDropdown />
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">
