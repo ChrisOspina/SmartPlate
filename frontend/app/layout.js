@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
+import { ClerkProvider } from "@clerk/nextjs";
+import { neobrutalism } from "@clerk/themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,18 +13,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${inter.className}`}>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <footer className=" bg-stone-100 py-8 px-4 border-t">
-          <div className="max-w-6xl mx-auto flex justify-center items-center">
-            <p className="text-stone-500 text-sm">
-              &copy; 2026 Anipso Systems LLC.
-            </p>
-          </div>
-        </footer>
-      </body>
-    </html>
+    <ClerkProvider appearance={{ baseTheme: neobrutalism }}>
+      <html lang="en" suppressHydrationWarning={true}>
+        <body className={`${inter.className}`}>
+          <Header />
+          <main className="min-h-screen">{children}</main>
+          <footer className=" bg-stone-100 py-8 px-4 border-t">
+            <div className="max-w-6xl mx-auto flex justify-center items-center">
+              <p className="text-stone-500 text-sm">
+                &copy; 2026 Anipso Systems LLC.
+              </p>
+            </div>
+          </footer>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
