@@ -1,9 +1,9 @@
 import { toast } from "sonner";
 
-const { useState, useActionState } = require("react");
+const { useState } = require("react");
 
 const useFetch = (cb) => {
-  const [data, setData] = useActionState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
