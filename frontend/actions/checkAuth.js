@@ -1,4 +1,4 @@
-"use Server";
+"use server";
 import { checkUser } from "@/lib/checkUser";
 
 export async function checkAuth() {
