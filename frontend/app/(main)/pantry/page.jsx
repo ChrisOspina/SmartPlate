@@ -329,8 +329,8 @@ export default function PantryPage() {
         {/* Empty State */}
         {!loadingItems && items.length === 0 && (
           <div className="bg-white p-12 text-center border-2 border-dashed border-stone-200">
-            <div className="bg-orange-50 w-20 h-20 border-2 border-orange-200 flex items-center justify-center mx-auto mb-6">
-              <Package className="w-10 h-10 text-orange-600" />
+            <div className="bg-green-50 w-20 h-20 border-2 border-green-200 flex items-center justify-center mx-auto mb-6">
+              <Package className="w-10 h-10 text-green-600" />
             </div>
             <h3 className="text-2xl font-bold text-stone-900 mb-2">
               Your Pantry is Empty
@@ -341,7 +341,7 @@ export default function PantryPage() {
             </p>
             <Button
               onClick={() => setIsModalOpen(true)}
-              className="bg-orange-600 hover:bg-orange-700 text-white gap-2"
+              className="bg-green-600 hover:bg-green-700 text-white gap-2"
               size="lg"
             >
               <Plus className="w-5 h-5" />
