@@ -22,7 +22,7 @@ import {
 } from "@/actions/pantry.actions";
 import { toast } from "sonner";
 
-export default function AddToPantryModal({ isOpen, onClose, onSuccess }) {
+const AddToPantryModal = ({ isOpen, onClose, onSuccess }) => {
   const [activeTab, setActiveTab] = useState("scan");
   const [selectedImage, setSelectedImage] = useState(null);
   const [scannedIngredients, setScannedIngredients] = useState([]);
@@ -326,4 +326,5 @@ export default function AddToPantryModal({ isOpen, onClose, onSuccess }) {
       </DialogContent>
     </Dialog>
   );
-}
+};
+export default AddToPantryModal;
