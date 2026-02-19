@@ -1,6 +1,13 @@
 import Link from "next/link";
 import React from "react";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
 import Image from "next/image";
 import { ChefHat, ArrowLeft, Loader2 } from "lucide-react";
 
@@ -17,6 +24,24 @@ const RecipeCard = ({ recipe, variant = "default" }) => {
     }
 
     //more conditions
+
+    //For AI-generated pantry recipes
+    if (recipe.matchPercentage) {
+      return {
+        title: recipe.title,
+        description: recipe.description,
+        category: recipe.category,
+        cuisine: recipe.cuisine,
+        prepTime: recipe.prepTime,
+        cookTime: recipe.cookTime,
+        servings: recipe.servings,
+        matchPercentage: recipe.matchPercentage,
+        missingIngredients: recipe.missingIngredients || [],
+        image: recipe.imageUrl, // Add image support
+        href: `/recipe?cook=${encodeURIComponent(recipe.title)}`,
+        showImage: !!recipe.imageUrl, // Show if image exists
+      };
+    }
 
     return {};
   };
@@ -63,6 +88,26 @@ const RecipeCard = ({ recipe, variant = "default" }) => {
           </CardHeader>
         </Card>
       </Link>
+    );
+  }
+
+  if (variant === "pantry") {
+    return (
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-start">
+            <div className="flex-1"></div>
+          </div>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>Card Description</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>Card Content</p>
+        </CardContent>
+        <CardFooter>
+          <p>Card Footer</p>
+        </CardFooter>
+      </Card>
     );
   }
 

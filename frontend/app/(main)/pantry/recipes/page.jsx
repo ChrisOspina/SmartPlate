@@ -2,9 +2,21 @@
 
 import { getRecipesByPantryIngredients } from "@/actions/recipe.actions";
 import useFetch from "@/hooks/use-fetch";
-import { ArrowLeft, ChefHat, Package, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ChefHat,
+  Package,
+  Sparkles,
+  Loader2,
+  AlertCircle,
+  TrendingUp,
+} from "lucide-react";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import PricingModal from "@/components/PricingModal";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import RecipeCard from "@/components/RecipeCard";
 
 const PantryRecipesPage = () => {
   const {
@@ -20,6 +32,7 @@ const PantryRecipesPage = () => {
 
   const recipes = recipesData?.recipes || [];
   const ingredientsUsed = recipesData?.ingredientsUsed || "";
+  console.log(recipesData.recommendationsLimit);
 
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16 px-4">
@@ -61,7 +74,7 @@ const PantryRecipesPage = () => {
             </div>
           )}
 
-          {recipesData !== undefined && (
+          {recipesData && (
             <div className="bg-green-50 p-4 border-2 border-green-200 inline-flex items-center gap-3">
               <Sparkles className="w-5 h-5 text-green-600" />
               <div className="text-sm">
@@ -80,6 +93,104 @@ const PantryRecipesPage = () => {
             </div>
           )}
         </div>
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="w-12 h-12 text-green-600 animate-spin mb-6" />
+            <h2 className="text-2xl font-bold text-stone-900 mb-2">
+              Finding Perfect Recipes...
+            </h2>
+            <p className="text-stone-600 font-light">
+              Our AI chef is analyzing your ingredients
+            </p>
+          </div>
+        )}
+
+        {/*Recipe Grid*/}
+        {!loading && recipes.length > 0 && (
+          <div>
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <TrendingUp className="w-5 h-5 text-green-600" />
+                <h2 className="text-2xl font-bold text-stone-900">
+                  Recipe Suggestions
+                </h2>
+              </div>
+              <Badge
+                variant="outline"
+                className={
+                  "border-2 border-stone-900 text-stone-900 font-bold uppercase tracking-wide"
+                }
+              >
+                {recipes.length} {recipes.length === 1 ? "recipe" : "recipes"}
+              </Badge>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {recipes.map((recipe, index) => {
+                <RecipeCard key={index} recipe={recipe} variant="pantry" />;
+              })}
+            </div>
+            {/* Refresh Button */}
+            <div className="mt-8 text-center">
+              <Button
+                onClick={() => fetchSuggestions(new FormData())}
+                variant="outline"
+                className="border-2 border-stone-900 hover:bg-stone-900 hover:text-white gap-2"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Get New Suggestions
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/*Empty Pantry State*/}
+        {!loading && recipes.length === 0 && recipesData?.success === false && (
+          <div className="bg-white p-12 text-center border-dashed border-stone-200">
+            <div className="bg-green-50 w-20 h-20 border-2 border-green-200 items-center justify-center mx-auto mb-6">
+              <AlertCircle className="w-10 h-10 text-yellow-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-stone-900 mb-2">
+              Your Pantry is Empty
+            </h3>
+            <p className="text-stone-600 mb-8 max-w-wd mx-auto font-light">
+              Add ingredients to your pantry first so we can suggest delicious
+              recipes you can make!
+            </p>
+          </div>
+        )}
+
+        {/* Rate Limit Reached */}
+        {!loading && recipesData === undefined && (
+          <div className="bg-linear-to-br from-green-50 to-lime-50 p-12 text-center border-2 border-green-200">
+            <div className="bg-green-100 w-20 h-20 border-2 border-green-200 flex items-center justify-center mx-auto mb-6">
+              <Sparkles className="w-10 h-10 text-green-600" />
+            </div>
+            <h3 className="text-2xl font-bold text-stone-900 mb-2">
+              Monthly Limit Reached
+            </h3>
+            <p className="text-stone-600 mb-8 max-w-md mx-auto font-light">
+              You&apos;ve used all your AI recipe recommendations this month.
+              Upgrade to Pro for unlimited suggestions!
+            </p>
+            <PricingModal>
+              <Button className="bg-green-600 hover:bg-green-700 text-white gap-2">
+                <Sparkles className="w-4 h-4" />
+                Upgrade to Pro
+              </Button>
+            </PricingModal>
+          </div>
+        )}
       </div>
     </div>
   );
