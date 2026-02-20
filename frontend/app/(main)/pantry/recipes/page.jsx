@@ -32,7 +32,6 @@ const PantryRecipesPage = () => {
 
   const recipes = recipesData?.recipes || [];
   const ingredientsUsed = recipesData?.ingredientsUsed || "";
-  console.log(recipesData.recommendationsLimit);
 
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16 px-4">
@@ -74,7 +73,7 @@ const PantryRecipesPage = () => {
             </div>
           )}
 
-          {recipesData && (
+          {recipesData !== null && (
             <div className="bg-green-50 p-4 border-2 border-green-200 inline-flex items-center gap-3">
               <Sparkles className="w-5 h-5 text-green-600" />
               <div className="text-sm">

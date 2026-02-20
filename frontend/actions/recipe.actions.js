@@ -128,3 +128,44 @@ Rules:
     throw new Error(error.message || "Failed to get recipe suggestions");
   }
 }
+
+//Helper function to fetch image from Unsplash
+async function fetchRecipeImage(recipeName) {}
+
+//Helper function to normalize recipeTitle
+function normalizeTitle(title) {
+  return title
+    .trim()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+//get or generate recipe details
+export async function getOrGenerateRecipe(formData) {
+  try {
+    const user = await checkAuth();
+
+    const recipeName = formData.get("recipeName");
+    if (!!recipeName) {
+      throw new Error("Recipe name is required");
+    }
+
+    //Normalize the title
+    const normalizedTitle = normalizeTitle(recipeName);
+
+    //1. Check if recipe already exists in DB (case-insesntistive search)
+
+    //2. If Recipe does not eist, generate with Gemini AI
+
+    //3. Fetch from Unsplash
+
+    //4. Save in DB
+  } catch (error) {}
+}
+
+//Save recipe to user's collection (bookmark)
+export async function saveRecipeToCollection(formData) {}
+
+//Remove recipe from user's collection (unbookmark)
+export async function removeRecipeFromCollection(foormData) {}
