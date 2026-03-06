@@ -29,7 +29,7 @@ import {
 import { toast } from "sonner";
 import Image from "next/image";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { RecipePDF } from "@/components/RecipePDF";
+import RecipePDF from "@/components/RecipePDF";
 import { ClockLoader } from "react-spinners";
 import ProLockedSection from "@/components/ProLockedSection";
 
@@ -367,7 +367,7 @@ function RecipeContent() {
                         className="flex justify-between items-start gap-2 text-stone-700 py-2 border-b border-stone-100 last:border-0"
                       >
                         <span className="flex-1">{ingredient.item}</span>
-                        <span className="font-bold text-green-600 text-sm whitespace-nowrap">
+                        <span className="font-bold text-green-600 text-xs text-wrap shrink-0">
                           {ingredient.amount}
                         </span>
                       </li>
