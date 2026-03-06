@@ -2,11 +2,65 @@
 
 import { Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import React, { Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import useFetch from "@/hooks/use-fetch";
 
 function RecipeContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const recipeName = searchParams.get("cook");
+
+  const [recipe, setRecipe] = useState(null);
+  const [recipeId, setRecipeId] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
+
+  // Get or generate recipe
+  const {
+    loading: loadingRecipe,
+    data: recipeData,
+    fn: fetchRecipe,
+  } = useFetch(getOrGenerateRecipe);
+
+  // Save to collection
+  const {
+    loading: saving,
+    data: saveData,
+    fn: saveToCollection,
+  } = useFetch(saveRecipeToCollection);
+
+  // Remove from collection
+  const {
+    loading: removing,
+    data: removeData,
+    fn: removeFromCollection,
+  } = useFetch(removeRecipeFromCollection);
+
+  // Fetch recipe on mount
+  useEffect(() => {
+    if (recipeName && !recipe) {
+      const formData = new FormData();
+      formData.append("recipeName", recipeName);
+      fetchRecipe(formData);
+    }
+  }, [recipeName]);
+
+  // Update recipe when data arrives
+  useEffect(() => {
+    if (recipeData?.success) {
+      setRecipe(recipeData.recipe);
+      setRecipeId(recipeData.recipeId);
+      setIsSaved(recipeData.isSaved);
+
+      if (recipeData.fromDatabase) {
+        toast.success("Recipe loaded from database");
+      } else {
+        toast.success("New recipe generated and saved!");
+      }
+    }
+  }, [recipeData]);
+
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16">
       <div className="container mx-auto max-w-4xl">{recipeName}</div>
