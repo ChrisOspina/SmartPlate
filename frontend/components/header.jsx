@@ -27,7 +27,7 @@ const Header = async () => {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href={user ? "/dashboard" : "/"}>
           <Image
-            src="/SmartPlateLogo.png"
+            src="/SmartPlatelogo.png"
             width={80}
             height={80}
             className="w-16"
