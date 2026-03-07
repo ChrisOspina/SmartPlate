@@ -13,6 +13,7 @@ import { Cookie, Refrigerator, Sparkles } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import { checkUser } from "@/lib/checkUser";
 import PricingModal from "./PricingModal";
+import HowToCookModal from "./HowToCookModal";
 import { Badge } from "./ui/badge";
 
 const Header = async () => {
@@ -52,6 +53,7 @@ const Header = async () => {
         <div className="flex items-center space-x-4">
           <SignedIn>
             {/*How to Cook*/}
+            <HowToCookModal />
 
             {user && (
               <PricingModal subscriptionTier={user.subscriptionTier}>
